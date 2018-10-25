@@ -79,8 +79,8 @@ on Homebrew's repos)
 
 ```sh
 cd /tmp/src
-curl -O http://ftp.rediris.es/mirror/GNU/gdb/gdb-7.8.tar.gz
-tar xf gdb-7.8.tar.gz
+curl -O http://ftp.rediris.es/mirror/GNU/gdb/gdb-8.2.tar.gz
+tar xf gdb-8.2.tar.gz
 mkdir gdb-build
 cd gdb-build
 export PREFIX="/usr/local/i386elfgcc"
