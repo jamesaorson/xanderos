@@ -20,10 +20,10 @@ KERNEL_OFFSET equ 0x1000
 
 %include "src/helpers/print.asm"
 %include "src/helpers/print_hex.asm"
-%include "src/boot_disk.asm"
-%include "src/32_bit_gdt.asm"
-%include "src/helpers/32_bit_print.asm"
-%include "src/32_bit_switch.asm"
+%include "src/boot/boot_disk.asm"
+%include "src/32_bit/32_bit_gdt.asm"
+%include "src/helpers/32_bit/32_bit_print.asm"
+%include "src/32_bit/32_bit_switch.asm"
 
 [bits 16]
 load_kernel:

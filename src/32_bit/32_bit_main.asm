@@ -13,9 +13,9 @@
     jmp $
 
 %include "src/helpers/print.asm"
-%include "src/32_bit_gdt.asm"
-%include "src/helpers/32_bit_print.asm"
-%include "src/32_bit_switch.asm"
+%include "src/32_bit/32_bit_gdt.asm"
+%include "src/helpers/32_bit/32_bit_print.asm"
+%include "src/32_bit/32_bit_switch.asm"
 
 [bits 32]
 ; After the switch we will get here
