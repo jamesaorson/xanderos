@@ -33,6 +33,7 @@ load_kernel:
 
     ; Read from disk and store in 0x1000
     mov bx, KERNEL_OFFSET
+    ; The future kernel will be larger, make this big
     mov dh, 16
     mov dl, [BOOT_DRIVE]
     call disk_load
