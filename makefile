@@ -29,14 +29,14 @@ kernel.elf: src/kernel/kernel_entry.o ${OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
 
 run: dist/xanderos.bin
-	qemu-system-x86_64 -fda $<
+	qemu-system-i386 -fda $<
 
 # Gets a disk read error
 run_from_disk: dist/xanderos.bin
-	qemu-system-x86_64 $< -boot c
+	qemu-system-i386 $< -boot c
 
 run_from_floppy: dist/xanderos.bin
-	qemu-system-x86_64 -fda $<
+	qemu-system-i386 -fda $<
 
 # Open the connection to qemu and load our kernel-object file with symbols
 debug: dist/xanderos.bin kernel.elf
