@@ -25,7 +25,7 @@ disk_load:
     
     ; BIOS interrupt
     int 0x13
-    ; if error (stored in the carry bit)
+    ; If error (stored in the carry bit)
     jc disk_error
 
     pop dx
@@ -33,6 +33,7 @@ disk_load:
     cmp al, dh
     jne sectors_error
     popa
+    
     ret
 
 disk_error:

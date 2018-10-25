@@ -11,9 +11,9 @@ KERNEL_OFFSET equ 0x1000
     call print
     call print_newline
 
-    ; read the kernel from disk
+    ; Read the kernel from disk
     call load_kernel
-    ; disable interrupts, load GDT,  etc. Finally jumps to 'BEGIN_PM'
+    ; Disable interrupts, load GDT, etc. Finally jumps to 'BEGIN_PROTECTED_MODE'
     call switch_to_protected_mode
     ; Never executed
     jmp $
@@ -31,25 +31,30 @@ load_kernel:
     call print
     call print_newline
 
-    mov bx, KERNEL_OFFSET ; Read from disk and store in 0x1000
+    ; Read from disk and store in 0x1000
+    mov bx, KERNEL_OFFSET
     mov dh, 2
     mov dl, [BOOT_DRIVE]
     call disk_load
+
     ret
 
 [bits 32]
 BEGIN_PROTECTED_MODE:
     mov ebx, MSG_PROTECTED_MODE
     call print_string_protected_mode
-    call KERNEL_OFFSET ; Give control to the kernel
-    jmp $ ; Stay here when the kernel returns control to us (if ever)
+    ; Give control to the kernel
+    call KERNEL_OFFSET
 
+    ; Stay here when the kernel returns control to us (if ever)
+    jmp $
 
-BOOT_DRIVE db 0 ; It is a good idea to store it in memory because 'dl' may get overwritten
+; It is a good idea to store it in memory because 'dl' may get overwritten
+BOOT_DRIVE db 0
 MSG_REAL_MODE db "Started in 16-bit Real Mode", 0
 MSG_PROTECTED_MODE db "Landed in 32-bit Protected Mode", 0
 MSG_LOAD_KERNEL db "Loading kernel into memory", 0
 
-; padding
+; Padding for 512 byte boot sector
 times 510 - ($-$$) db 0
 dw 0xaa55
