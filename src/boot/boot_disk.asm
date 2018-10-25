@@ -51,12 +51,7 @@ sectors_error:
     call print
 
 disk_loop:
-    mov bx, DISK_LOADED
-    call print
-    
     jmp $
 
 DISK_ERROR: db "Disk read error", 0
 SECTORS_ERROR: db "Incorrect number of sectors read", 0
-
-DISK_LOADED: db "Welcome to XanderOS", 0
