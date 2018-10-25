@@ -16,7 +16,7 @@ GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
 CFLAGS = -g
 
 # First rule is run by default
-dist/xanderos.bin: src/boot/boot_sector.bin src/kernel/kernel.bin
+dist/xanderos.bin: src/boot/sector.bin src/kernel/kernel.bin
 	cat $^ > $@
 
 # '--oformat binary' deletes all symbols as a collateral, so we don't need
@@ -29,6 +29,13 @@ kernel.elf: src/kernel/kernel_entry.o ${OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
 
 run: dist/xanderos.bin
+	qemu-system-x86_64 -fda $<
+
+# Gets a disk read error
+run_from_disk: dist/xanderos.bin
+	qemu-system-x86_64 $< -boot c
+
+run_from_floppy: dist/xanderos.bin
 	qemu-system-x86_64 -fda $<
 
 # Open the connection to qemu and load our kernel-object file with symbols
