@@ -7,6 +7,13 @@ void memoryCopy(char *source, char *dest, int numberOfBytes) {
     }
 }
 
+void memorySet(u8* destination, u8 value, u32 length) {
+    u8* temp = (u8*) destination;
+    for ( ; length != 0; length--) {
+        *temp++ = value;
+    }
+}
+
 /**
  * K&R implementation
  */
@@ -23,17 +30,25 @@ void intToString(int number, char outputString[]) {
     if (sign < 0) {
         outputString[i++] = '-';
     }
-    reverseString(outputString, i);
+    reverseString(outputString);
 
     outputString[i] = '\0';
 }
 
-void reverseString(char stringToReverse[], int length) {
-    int i;
-    for (i = 0; i < length / 2; ++i) {
-        char temp = stringToReverse[i];
-        int swapPosition = length - i - 1;
-        stringToReverse[i] = stringToReverse[swapPosition];
-        stringToReverse[swapPosition] = temp;
+void reverseString(char stringToReverse[]) {
+    int temp, i, j;
+    for (i = 0, j = strlen(stringToReverse)-1; i < j; i++, j--) {
+        temp = stringToReverse[i];
+        stringToReverse[i] = stringToReverse[j];
+        stringToReverse[j] = temp;
     }
+}
+
+int strlen(char str[]) {
+    int i = 0;
+    while (str[i] != '\0') {
+        i++;
+    }
+
+    return i;
 }

@@ -15,7 +15,7 @@
 
 /* Public kernel API */
 void clearScreen();
-void printk(char* message);
-void printkAtPosition(char *message, int row, int column);
+void kprint(char* message);
+void kprintAtPosition(char *message, int row, int column);
 
 #endif

@@ -20,7 +20,7 @@ void setCursorOffset(int offset);
  * Print a message on the specified location
  * If column, row, are negative, we will use the current offset
  */
-void printkAtPosition(char *message, int row, int column) {
+void kprintAtPosition(char *message, int row, int column) {
     /* Set cursor if column/row are negative */
     int offset;
     if (column >= 0 && row >= 0)
@@ -41,8 +41,8 @@ void printkAtPosition(char *message, int row, int column) {
     }
 }
 
-void printk(char *message) {
-    printkAtPosition(message, -1, -1);
+void kprint(char *message) {
+    kprintAtPosition(message, -1, -1);
 }
 
 /**********************************************************

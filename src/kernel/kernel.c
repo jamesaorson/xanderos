@@ -1,12 +1,13 @@
-#include "../drivers/video.h"
-#include "util.h"
 #include "../cpu/isr.h"
-#include "../cpu/idt.h"
+#include "../cpu/timer.h"
+#include "../drivers/keyboard.h"
 
 void main() {
     isrInstall();
 
-    /* Test the interrupts */
-    __asm__ __volatile__("int $2");
-    __asm__ __volatile__("int $3");
+    asm volatile("sti");
+    initTimer(50);
+    /* Comment out the timer IRQ handler to read
+     * the keyboard IRQs easier */
+    initKeyboard();
 }

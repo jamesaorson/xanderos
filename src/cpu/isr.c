@@ -116,13 +116,13 @@ char* exceptionMessages[] = {
 };
 
 void isrHandler(registers_t registers) {
-    printk("Received interrupt: ");
+    kprint("Received interrupt: ");
     char interruptNumberString[3];
     intToString(registers.interruptNumber, interruptNumberString);
-    printk(interruptNumberString);
-    printk("\n");
-    printk(exceptionMessages[registers.interruptNumber]);
-    printk("\n");
+    kprint(interruptNumberString);
+    kprint("\n");
+    kprint(exceptionMessages[registers.interruptNumber]);
+    kprint("\n");
 }
 
 void registerInterruptHandler(u8 interruptNumber, isr_t handler) {
