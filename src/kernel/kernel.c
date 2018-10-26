@@ -1,8 +1,10 @@
-/* This will force us to create a kernel entry function instead of jumping to kernel.c:0x00 */
-void dummy_test_entrypoint() {
-}
+#include "../drivers/video.h"
 
 void main() {
-    char* video_memory = (char*) 0xb8000;
-    *video_memory = 'X';
+    clearScreen();
+    printkAtPosition("X", 6, 1);
+    printkAtPosition("This text spans multiple lines", 10, 0);
+    printkAtPosition("There is a line\nbreak", 20, 0);
+    printk("There is a line\nbreak");
+    printkAtPosition("What happens when we run out of space?", 24, 45);
 }
