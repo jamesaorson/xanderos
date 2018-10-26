@@ -98,8 +98,8 @@ typedef struct {
     u32 ss;
 } registers_t;
 
-void isrInstall();
 void isrHandler(registers_t registers);
+void isrInstall();
 
 typedef void (*isr_t)(registers_t);
 void registerInterruptHandler(u8 interruptNumber, isr_t handler);
