@@ -3,10 +3,10 @@
 
 /* Declaration of private functions */
 int getCursorOffset();
-int getOffset(int column, int row);
+int getOffset(int row, int column);
 int getOffsetColumn(int offset);
 int getOffsetRow(int offset);
-int printChar(char character, int column, int row, char color);
+int printChar(char character, int row, int column, char color);
 void setCursorOffset(int offset);
 
 /**********************************************************
@@ -21,7 +21,7 @@ void printkAtPosition(char *message, int row, int column) {
     /* Set cursor if column/row are negative */
     int offset;
     if (column >= 0 && row >= 0)
-        offset = getOffset(column, row);
+        offset = getOffset(row, column);
     else {
         offset = getCursorOffset();
         row = getOffsetRow(offset);
@@ -31,7 +31,7 @@ void printkAtPosition(char *message, int row, int column) {
     /* Loop through message and print it */
     int i = 0;
     while (message[i] != 0) {
-        offset = printChar(message[i++], column, row, WHITE_ON_BLACK);
+        offset = printChar(message[i++], row, column, WHITE_ON_BLACK);
         /* Compute row/column for next iteration */
         row = getOffsetRow(offset);
         column = getOffsetColumn(offset);
@@ -75,16 +75,15 @@ int getCursorOffset() {
      */
     setPortByte(SCREEN_CONTROL_PORT, 14);
     /* High byte: << 8 */
-    int offsetLowByte = getPortByte(SCREEN_DATA_PORT);
-    int offsetHighByte = getHighByte(offsetLowByte);
+    int offset = getHighByte(getPortByte(SCREEN_DATA_PORT));
     setPortByte(SCREEN_CONTROL_PORT, 15);
-    offsetLowByte += getPortByte(SCREEN_DATA_PORT);
+    offset += getPortByte(SCREEN_DATA_PORT);
     
     /* Position * size of character cell */
-    return offsetLowByte * 2;
+    return offset * 2;
 }
 
-int getOffset(int column, int row) {
+int getOffset(int row, int column) {
     return 2 * (row * MAX_COLUMNS + column); 
 }
 
@@ -96,7 +95,7 @@ int getOffsetRow(int offset) {
     return offset / (2 * MAX_COLUMNS);
 }
 
-int printChar(char character, int column, int row, char color) {
+int printChar(char character, int row, int column, char color) {
     unsigned char *videoAddress = (unsigned char*) VIDEO_ADDRESS;
     if (!color) {
         color = WHITE_ON_BLACK;
@@ -106,12 +105,12 @@ int printChar(char character, int column, int row, char color) {
     if (column >= MAX_COLUMNS || row >= MAX_ROWS) {
         videoAddress[2 * (MAX_COLUMNS) * (MAX_ROWS) - 2] = 'E';
         videoAddress[2 * (MAX_COLUMNS) * (MAX_ROWS) - 1] = RED_ON_WHITE;
-        return getOffset(column, row);
+        return getOffset(row, column);
     }
 
     int offset;
     if (column >= 0 && row >= 0) {
-        offset = getOffset(column, row);
+        offset = getOffset(row, column);
     }
     else {
         offset = getCursorOffset();
@@ -119,12 +118,31 @@ int printChar(char character, int column, int row, char color) {
 
     if (character == '\n') {
         row = getOffsetRow(offset);
-        offset = getOffset(0, row + 1);
+        offset = getOffset(row + 1, column);
     } else {
         videoAddress[offset] = character;
         videoAddress[offset + 1] = color;
         offset += 2;
     }
+
+    /* Check if the offset is over screen size and scroll */
+    if (offset >= MAX_ROWS * MAX_COLUMNS * 2) {
+        int i;
+        for (i = 1; i < MAX_ROWS; i++) 
+            memoryCopy(getOffset(i, 0) + VIDEO_ADDRESS,
+                       getOffset(i - 1, 0) + VIDEO_ADDRESS,
+                       MAX_COLUMNS * 2);
+
+        /* Blank last line */
+        char* lastLine = getOffset(MAX_ROWS - 1, 0) + VIDEO_ADDRESS;
+        for (i = 0; i < MAX_COLUMNS * 2; i++) {
+            lastLine[i] = 0;
+        }
+
+        offset -= 2 * MAX_COLUMNS;
+    }
+
+
     setCursorOffset(offset);
     return offset;
 }
