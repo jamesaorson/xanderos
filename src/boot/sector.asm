@@ -18,12 +18,12 @@ KERNEL_OFFSET equ 0x1000
     ; Never executed
     jmp $
 
-%include "src/helpers/print.asm"
-%include "src/helpers/print_hex.asm"
+%include "src/boot/helpers/print.asm"
+%include "src/boot/helpers/print_hex.asm"
 %include "src/boot/disk.asm"
-%include "src/32_bit/gdt.asm"
-%include "src/helpers/32_bit/32_bit_print.asm"
-%include "src/32_bit/switch_protected_mode.asm"
+%include "src/boot/32_bit/gdt.asm"
+%include "src/boot/helpers/32_bit/32_bit_print.asm"
+%include "src/boot/32_bit/switch_protected_mode.asm"
 
 [bits 16]
 load_kernel:
