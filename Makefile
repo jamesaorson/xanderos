@@ -55,5 +55,5 @@ debug: dist/xanderos.bin kernel.elf
 	nasm $< -f bin -o $@
 
 clean:
-	rm -rf *.bin *.dis *.o *.elf
+	rm -rf *.bin *.dis *.o dist/xanderos.bin *.elf
 	rm -rf src/boot/*.bin src/boot/*.o src/kernel/*.bin src/kernel/*.o src/drivers/*.bin src/drivers/*.o
