@@ -56,4 +56,4 @@ debug: dist/xanderos.bin kernel.elf
 
 clean:
 	rm -rf *.bin *.dis *.o dist/xanderos.bin *.elf
-	rm -rf src/boot/*.bin src/boot/*.o src/kernel/*.bin src/kernel/*.o src/drivers/*.bin src/drivers/*.o
+	rm -rf src/boot/*.bin src/boot/*.o src/cpu/*.bin src/cpu/*.o src/drivers/*.bin src/drivers/*.o src/kernel/*.bin src/kernel/*.o
