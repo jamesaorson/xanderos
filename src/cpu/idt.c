@@ -1,7 +1,7 @@
 #include "idt.h"
 #include "../kernel/util.h"
 
-void set_idt_gate(int n, u32 handler) {
+void setIdtGate(int n, u32 handler) {
     idt[n].lowOffset = low16(handler);
     idt[n].selector = KERNEL_SEGMENT;
     idt[n].always0 = 0;
@@ -9,7 +9,7 @@ void set_idt_gate(int n, u32 handler) {
     idt[n].highOffset = high16(handler);
 }
 
-void set_idt() {
+void setIdt() {
     idtRegister.base = (u32) &idt;
     idtRegister.limit = IDT_ENTRIES * sizeof(idt_gate_t) - 1;
 
