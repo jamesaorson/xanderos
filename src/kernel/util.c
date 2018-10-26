@@ -1,3 +1,5 @@
+#include "util.h"
+
 void memoryCopy(char *source, char *dest, int numberOfBytes) {
     int i;
     for (i = 0; i < numberOfBytes; i++) {

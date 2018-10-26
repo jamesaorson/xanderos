@@ -60,7 +60,7 @@ void printk(char *message) {
 
 void clearScreen() {
     int screenSize = MAX_COLUMNS * MAX_ROWS;
-    char *screen = VIDEO_ADDRESS;
+    char* screen = (char*) VIDEO_ADDRESS;
 
     int i;
     for (i = 0; i < screenSize; i++) {
@@ -131,12 +131,12 @@ int printChar(char character, int row, int column, char color) {
     if (offset >= MAX_ROWS * MAX_COLUMNS * 2) {
         int i;
         for (i = 1; i < MAX_ROWS; i++) 
-            memoryCopy(getOffset(i, 0) + VIDEO_ADDRESS,
-                       getOffset(i - 1, 0) + VIDEO_ADDRESS,
+            memoryCopy((char*) getOffset(i, 0) + VIDEO_ADDRESS,
+                       (char*) getOffset(i - 1, 0) + VIDEO_ADDRESS,
                        MAX_COLUMNS * 2);
 
         /* Blank last line */
-        char* lastLine = getOffset(MAX_ROWS - 1, 0) + VIDEO_ADDRESS;
+        char* lastLine = (char*) getOffset(MAX_ROWS - 1, 0) + VIDEO_ADDRESS;
         for (i = 0; i < MAX_COLUMNS * 2; i++) {
             lastLine[i] = 0;
         }
