@@ -1,5 +1,6 @@
 #include "video.h"
 #include "ports.h"
+#include "../kernel/util.h"
 
 /* Declaration of private functions */
 int getCursorOffset();
@@ -7,6 +8,7 @@ int getOffset(int row, int column);
 int getOffsetColumn(int offset);
 int getOffsetRow(int offset);
 int printChar(char character, int row, int column, char color);
+void clearScreen();
 void setCursorOffset(int offset);
 
 /**********************************************************
@@ -58,7 +60,7 @@ void printk(char *message) {
 
 void clearScreen() {
     int screenSize = MAX_COLUMNS * MAX_ROWS;
-    char *screen = (char) VIDEO_ADDRESS;
+    char *screen = VIDEO_ADDRESS;
 
     int i;
     for (i = 0; i < screenSize; i++) {
@@ -75,7 +77,7 @@ int getCursorOffset() {
      */
     setPortByte(SCREEN_CONTROL_PORT, 14);
     /* High byte: << 8 */
-    int offset = getHighByte(getPortByte(SCREEN_DATA_PORT));
+    int offset = getPortByte(SCREEN_DATA_PORT) << 8;
     setPortByte(SCREEN_CONTROL_PORT, 15);
     offset += getPortByte(SCREEN_DATA_PORT);
     
@@ -149,10 +151,9 @@ int printChar(char character, int row, int column, char color) {
 
 void setCursorOffset(int offset) {
     /* Similar to getCursorOffset, but instead of reading we write data */
-    int highByteOffset = getHighByte(offset);
     offset /= 2;
     setPortByte(SCREEN_CONTROL_PORT, 14);
-    setPortByte(SCREEN_DATA_PORT, (unsigned char)(highByteOffset));
+    setPortByte(SCREEN_DATA_PORT, (unsigned char)(offset >> 8));
     setPortByte(SCREEN_CONTROL_PORT, 15);
     setPortByte(SCREEN_DATA_PORT, (unsigned char)(offset & 0xff));
 }

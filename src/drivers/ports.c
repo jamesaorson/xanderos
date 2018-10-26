@@ -1,7 +1,3 @@
-int getHighByte(int portValue) {
-    return portValue << 8;
-}
-
 /**
  * Read a byte from the specified port
  */

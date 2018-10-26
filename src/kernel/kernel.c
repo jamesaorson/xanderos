@@ -16,4 +16,5 @@ void main() {
     printkAtPosition("This text forces the kernel to scroll. Row 1 will disappear. ", 24, 60);
     printkAtPosition("This text forces the kernel to scroll. Row 2 will disappear. ", 24, 60);
     printkAtPosition("This text forces the kernel to scroll. Row 3 will disappear. ", 24, 60);
+    printk("This text forces the kernel to scroll. Row 4 will disappear. ");
 }
