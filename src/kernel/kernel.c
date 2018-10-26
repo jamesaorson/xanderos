@@ -1,10 +1,19 @@
 #include "../drivers/video.h"
+#include "util.h"
 
 void main() {
     clearScreen();
-    printkAtPosition("X", 6, 1);
-    printkAtPosition("This text spans multiple lines", 10, 0);
-    printkAtPosition("There is a line\nbreak", 20, 0);
-    printk("There is a line\nbreak");
-    printkAtPosition("What happens when we run out of space?", 24, 45);
+
+    /* Fill up the screen */
+    int i = 0;
+    for (i = 0; i < 24; i++) {
+        char str[255];
+        intToString(i, str);
+        printkAtPosition(str, i, 0);
+    }
+
+    printkAtPosition("This text forces the kernel to scroll. Row 0 will disappear. ", 24, 60);
+    printkAtPosition("This text forces the kernel to scroll. Row 1 will disappear. ", 24, 60);
+    printkAtPosition("This text forces the kernel to scroll. Row 2 will disappear. ", 24, 60);
+    printkAtPosition("This text forces the kernel to scroll. Row 3 will disappear. ", 24, 60);
 }
