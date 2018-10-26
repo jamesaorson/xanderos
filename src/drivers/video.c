@@ -1,5 +1,6 @@
 #include "video.h"
 #include "ports.h"
+#include "../cpu/types.h"
 #include "../kernel/util.h"
 
 /* Declaration of private functions */
@@ -98,7 +99,7 @@ int getOffsetRow(int offset) {
 }
 
 int printChar(char character, int row, int column, char color) {
-    unsigned char *videoAddress = (unsigned char*) VIDEO_ADDRESS;
+    u8 *videoAddress = (u8*) VIDEO_ADDRESS;
     if (!color) {
         color = WHITE_ON_BLACK;
     }
@@ -153,7 +154,7 @@ void setCursorOffset(int offset) {
     /* Similar to getCursorOffset, but instead of reading we write data */
     offset /= 2;
     setPortByte(SCREEN_CONTROL_PORT, 14);
-    setPortByte(SCREEN_DATA_PORT, (unsigned char)(offset >> 8));
+    setPortByte(SCREEN_DATA_PORT, (u8)(offset >> 8));
     setPortByte(SCREEN_CONTROL_PORT, 15);
-    setPortByte(SCREEN_DATA_PORT, (unsigned char)(offset & 0xff));
+    setPortByte(SCREEN_DATA_PORT, (u8)(offset & 0xff));
 }
