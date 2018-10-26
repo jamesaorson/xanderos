@@ -1,7 +1,10 @@
 #include "isr.h"
 #include "idt.h"
+#include "../drivers/ports.h"
 #include "../drivers/video.h"
 #include "../kernel/util.h"
+
+isr_t interruptHandlers[256];
 
 /* Can't do this with a loop because we need the address
  * of the function names */
@@ -39,7 +42,38 @@ void isrInstall() {
     setIdtGate(30, (u32)isr30);
     setIdtGate(31, (u32)isr31);
 
-    setIdt(); // Load with ASM
+    // Remap the PIC
+    setPortByte(0x20, 0x11);
+    setPortByte(0xA0, 0x11);
+    setPortByte(0x21, 0x20);
+    setPortByte(0xA1, 0x28);
+    setPortByte(0x21, 0x04);
+    setPortByte(0xA1, 0x02);
+    setPortByte(0x21, 0x01);
+    setPortByte(0xA1, 0x01);
+    setPortByte(0x21, 0x0);
+    setPortByte(0xA1, 0x0); 
+
+    // Install the IRQs
+    setIdtGate(32, (u32)irq0);
+    setIdtGate(33, (u32)irq1);
+    setIdtGate(34, (u32)irq2);
+    setIdtGate(35, (u32)irq3);
+    setIdtGate(36, (u32)irq4);
+    setIdtGate(37, (u32)irq5);
+    setIdtGate(38, (u32)irq6);
+    setIdtGate(39, (u32)irq7);
+    setIdtGate(40, (u32)irq8);
+    setIdtGate(41, (u32)irq9);
+    setIdtGate(42, (u32)irq10);
+    setIdtGate(43, (u32)irq11);
+    setIdtGate(44, (u32)irq12);
+    setIdtGate(45, (u32)irq13);
+    setIdtGate(46, (u32)irq14);
+    setIdtGate(47, (u32)irq15);
+
+    /* Load with ASM */
+    setIdt();
 }
 
 /* To print the message which defines every exception */
@@ -89,4 +123,25 @@ void isrHandler(registers_t registers) {
     printk("\n");
     printk(exceptionMessages[registers.interruptNumber]);
     printk("\n");
+}
+
+void registerInterruptHandler(u8 interruptNumber, isr_t handler) {
+    interruptHandlers[interruptNumber] = handler;
+}
+
+void irqHandler(registers_t registers) {
+    /* After every interrupt we need to send an EOI to the PICs
+     * or they will not send another interrupt again */
+    if (registers.interruptNumber >= 40) {
+        /* Slave */
+        setPortByte(0xA0, 0x20);
+    }
+    /* Master */
+    setPortByte(0x20, 0x20);
+
+    /* Handle the interrupt in a more modular way */
+    if (interruptHandlers[registers.interruptNumber] != 0) {
+        isr_t handler = interruptHandlers[registers.interruptNumber];
+        handler(registers);
+    }
 }

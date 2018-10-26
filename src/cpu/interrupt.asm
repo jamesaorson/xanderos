@@ -1,5 +1,6 @@
 ; Defined in isr.c
 [extern isrHandler]
+[extern irqHandler]
 
 ; Common ISR code
 isrCommonStub:
@@ -27,6 +28,30 @@ isrCommonStub:
 	sti
 	iret ; Pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
 	
+; Common IRQ code. Identical to ISR code except for the 'call' 
+; and the 'pop ebx'
+irqCommonStub:
+    pusha 
+    mov ax, ds
+    push eax
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    ; Different than the ISR code
+    call irqHandler
+    ; Different than the ISR code
+    pop ebx
+    mov ds, bx
+    mov es, bx
+    mov fs, bx
+    mov gs, bx
+    popa
+    add esp, 8
+    sti
+    iret
+
 ; We don't get information about which interrupt was caller
 ; when the handler is run, so we will need to have a different handler
 ; for every interrupt.
@@ -67,6 +92,24 @@ global isr28
 global isr29
 global isr30
 global isr31
+
+; IRQs
+global irq0
+global irq1
+global irq2
+global irq3
+global irq4
+global irq5
+global irq6
+global irq7
+global irq8
+global irq9
+global irq10
+global irq11
+global irq12
+global irq13
+global irq14
+global irq15
 
 ; 0: Divide By Zero Exception
 isr0:
@@ -285,3 +328,100 @@ isr31:
     push byte 0
     push byte 31
     jmp isrCommonStub
+
+; IRQ handlers
+irq0:
+	cli
+	push byte 0
+	push byte 32
+	jmp irqCommonStub
+
+irq1:
+	cli
+	push byte 1
+	push byte 33
+	jmp irqCommonStub
+
+irq2:
+	cli
+	push byte 2
+	push byte 34
+	jmp irqCommonStub
+
+irq3:
+	cli
+	push byte 3
+	push byte 35
+	jmp irqCommonStub
+
+irq4:
+	cli
+	push byte 4
+	push byte 36
+	jmp irqCommonStub
+
+irq5:
+	cli
+	push byte 5
+	push byte 37
+	jmp irqCommonStub
+
+irq6:
+	cli
+	push byte 6
+	push byte 38
+	jmp irqCommonStub
+
+irq7:
+	cli
+	push byte 7
+	push byte 39
+	jmp irqCommonStub
+
+irq8:
+	cli
+	push byte 8
+	push byte 40
+	jmp irqCommonStub
+
+irq9:
+	cli
+	push byte 9
+	push byte 41
+	jmp irqCommonStub
+
+irq10:
+	cli
+	push byte 10
+	push byte 42
+	jmp irqCommonStub
+
+irq11:
+	cli
+	push byte 11
+	push byte 43
+	jmp irqCommonStub
+
+irq12:
+	cli
+	push byte 12
+	push byte 44
+	jmp irqCommonStub
+
+irq13:
+	cli
+	push byte 13
+	push byte 45
+	jmp irqCommonStub
+
+irq14:
+	cli
+	push byte 14
+	push byte 46
+	jmp irqCommonStub
+
+irq15:
+	cli
+	push byte 15
+	push byte 47
+	jmp irqCommonStub
