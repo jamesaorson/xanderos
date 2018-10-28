@@ -3,9 +3,9 @@
 
 #include "../cpu/type.h"
 
-u8 getPortByte(u16 port);
-void setPortByte(u16 port, u8 data);
-u16 getPortWord(u16 port);
-void setPortWord(u16 port, u16 data);
+uint8_t getPortByte(uint16_t port);
+void setPortByte(uint16_t port, uint8_t data);
+uint16_t getPortWord(uint16_t port);
+void setPortWord(uint16_t port, uint16_t data);
 
 #endif

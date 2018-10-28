@@ -5,21 +5,21 @@
 #include "ports.h"
 #include "type.h"
 
-u32 tick = 0;
+uint32_t tick = 0;
 
 static void timerCallback(registers_t registers) {
     tick++;
     UNUSED(registers);
 }
 
-void initTimer(u32 freq) {
+void initTimer(uint32_t freq) {
     /* Install the function we just wrote */
     registerInterruptHandler(IRQ0, timerCallback);
 
     /* Get the PIT value: hardware clock at 1193180 Hz */
-    u32 divisor = 1193180 / freq;
-    u8 low  = (u8)(divisor & 0xFF);
-    u8 high = (u8)((divisor >> 8) & 0xFF);
+    uint32_t divisor = 1193180 / freq;
+    uint8_t low  = (uint8_t)(divisor & 0xFF);
+    uint8_t high = (uint8_t)((divisor >> 8) & 0xFF);
     
     /* Send the command */
     /* Command port */

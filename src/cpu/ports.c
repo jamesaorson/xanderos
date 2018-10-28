@@ -3,8 +3,8 @@
 /**
  * Read a byte from the specified port
  */
-u8 getPortByte(u16 port) {
-    u8 result;
+uint8_t getPortByte(uint16_t port) {
+    uint8_t result;
     /* Inline assembler syntax
      * !! Notice how the source and destination registers are switched from NASM !!
      *
@@ -17,7 +17,7 @@ u8 getPortByte(u16 port) {
     return result;
 }
 
-void setPortByte(u16 port, u8 data) {
+void setPortByte(uint16_t port, uint8_t data) {
     /* Notice how here both registers are mapped to C variables and
      * nothing is returned, thus, no equals '=' in the asm syntax 
      * However we see a comma since there are two variables in the input area
@@ -26,12 +26,12 @@ void setPortByte(u16 port, u8 data) {
     __asm__("out %%al, %%dx" : : "a" (data), "d" (port));
 }
 
-u16 getPortWord(u16 port) {
-    u16 result;
+uint16_t getPortWord(uint16_t port) {
+    uint16_t result;
     __asm__("in %%dx, %%ax" : "=a" (result) : "d" (port));
     return result;
 }
 
-void setPortWord(u16 port, u16 data) {
+void setPortWord(uint16_t port, uint16_t data) {
     __asm__("out %%ax, %%dx" : : "a" (data), "d" (port));
 }

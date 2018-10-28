@@ -4,7 +4,7 @@
 #include "../drivers/video.h"
 #include "../libc/string.h"
 
-void main() {
+void kernelMain() {
     isrInstall();
     irqInstall();
 

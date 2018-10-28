@@ -31,7 +31,7 @@ void hexToAscii(int hex, char str[]) {
     strappend(str, 'x');
     char zeros = 0;
 
-    s32 temp;
+    int32_t temp;
     int i;
     for (i = 28; i > 0; i -= 4) {
         temp = (hex >> i) & 0xF;

@@ -74,28 +74,28 @@ extern void irq15();
 
 /* Struct which aggregates many registers */
 typedef struct {
-    u32 dataSegment; /* Data segment selector */
+    uint32_t dataSegment; /* Data segment selector */
     
     /* Pushed by pusha */
-    u32 edi;
-    u32 esi;
-    u32 ebp;
-    u32 esp;
-    u32 ebx;
-    u32 edx;
-    u32 ecx;
-    u32 eax;
+    uint32_t edi;
+    uint32_t esi;
+    uint32_t ebp;
+    uint32_t esp;
+    uint32_t ebx;
+    uint32_t edx;
+    uint32_t ecx;
+    uint32_t eax;
     
     /* Interrupt number and error code (if applicable) */
-    u32 interruptNumber;
-    u32 errorCode;
+    uint32_t interruptNumber;
+    uint32_t errorCode;
 
     /* Pushed by the processor automatically */
-    u32 eip;
-    u32 cs;
-    u32 eflags;
-    u32 useresp;
-    u32 ss;
+    uint32_t eip;
+    uint32_t cs;
+    uint32_t eflags;
+    uint32_t useresp;
+    uint32_t ss;
 } registers_t;
 
 void irqHandler(registers_t registers);
@@ -104,6 +104,6 @@ void isrHandler(registers_t registers);
 void isrInstall();
 
 typedef void (*isr_t)(registers_t);
-void registerInterruptHandler(u8 interruptNumber, isr_t handler);
+void registerInterruptHandler(uint8_t interruptNumber, isr_t handler);
 
 #endif

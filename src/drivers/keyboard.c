@@ -33,7 +33,7 @@ const char scancodeAscii[] = { '?', '?', '1', '2', '3', '4', '5', '6',
 
 static void keyboardCallback(registers_t regs) {
     /* The PIC leaves us the scancode in port 0x60 */
-    u8 scancode = getPortByte(0x60);
+    uint8_t scancode = getPortByte(0x60);
     
     if (scancode > SC_MAX) {
         return;

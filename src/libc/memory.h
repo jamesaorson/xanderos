@@ -3,9 +3,9 @@
 
 #include "../cpu/type.h"
 
-u32 kmalloc(u32 size, int align, u32* physicalAddress);
+uint32_t kmalloc(uint32_t size, int align, uint32_t* physicalAddress);
 
 void memoryCopy(char* source, char* dest, int numberOfBytes);
-void memorySet(u8* destination, u8 value, u32 length);
+void memorySet(uint8_t* destination, uint8_t value, uint32_t length);
 
 #endif
