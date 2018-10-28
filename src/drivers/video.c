@@ -1,7 +1,9 @@
 #include "video.h"
-#include "ports.h"
+
+#include "../cpu/ports.h"
 #include "../cpu/types.h"
-#include "../kernel/string.h"
+#include "../libc/memory.h"
+#include "../libc/string.h"
 
 /* Declaration of private functions */
 int getCursorOffset();
@@ -15,6 +17,10 @@ void setCursorOffset(int offset);
 /**********************************************************
  * Public Kernel API functions                            *
  **********************************************************/
+
+void kprint(char *message) {
+    kprintAtPosition(message, -1, -1);
+}
 
 /**
  * Print a message on the specified location
@@ -41,8 +47,11 @@ void kprintAtPosition(char *message, int row, int column) {
     }
 }
 
-void kprint(char *message) {
-    kprintAtPosition(message, -1, -1);
+void kprintBackspace() {
+    int offset = getCursorOffset() - 2;
+    int row = getOffsetRow(offset);
+    int column = getOffsetColumn(offset);
+    printChar(0x08, row, column, WHITE_ON_BLACK);
 }
 
 /**********************************************************
@@ -109,6 +118,9 @@ int printChar(char character, int row, int column, char color) {
     if (character == '\n') {
         row = getOffsetRow(offset);
         offset = getOffset(row + 1, column);
+    } else if (character == 0x08) { /* Backspace */
+        videoAddress[offset] = ' ';
+        videoAddress[offset + 1] = color;
     } else {
         videoAddress[offset] = character;
         videoAddress[offset + 1] = color;

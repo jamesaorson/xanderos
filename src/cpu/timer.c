@@ -1,18 +1,15 @@
-#include "../drivers/video.h"
-#include "../kernel/string.h"
-#include "isr.h"
 #include "timer.h"
+
+#include "../libc/function.h"
+#include "isr.h"
+#include "ports.h"
+#include "types.h"
 
 u32 tick = 0;
 
 static void timerCallback(registers_t registers) {
     tick++;
-    kprint("Tick: ");
-    
-    char tickString[256];
-    intToString(tick, tickString);
-    kprint(tickString);
-    kprint("\n");
+    UNUSED(registers);
 }
 
 void initTimer(u32 freq) {

@@ -98,6 +98,8 @@ typedef struct {
     u32 ss;
 } registers_t;
 
+void irqHandler(registers_t registers);
+void irqInstall();
 void isrHandler(registers_t registers);
 void isrInstall();
 

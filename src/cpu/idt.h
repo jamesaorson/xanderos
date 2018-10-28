@@ -8,8 +8,10 @@
 
 /* How every interrupt gate (handler) is defined */
 typedef struct {
-    u16 lowOffset; /* Lower 16 bits of handler function address */
-    u16 selector; /* Kernel segment selector */
+    /* Lower 16 bits of handler function address */
+    u16 lowOffset;
+    /* Kernel segment selector */
+    u16 selector; 
     u8 always0;
     /* First byte
      * Bit 7: "Interrupt is present"

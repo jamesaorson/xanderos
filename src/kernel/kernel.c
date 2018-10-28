@@ -1,13 +1,20 @@
+#include "kernel.h"
+
 #include "../cpu/isr.h"
-#include "../cpu/timer.h"
-#include "../drivers/keyboard.h"
+#include "../drivers/video.h"
+#include "../libc/string.h"
 
 void main() {
     isrInstall();
+    irqInstall();
+}
 
-    asm volatile("sti");
-    initTimer(50);
-    /* Comment out the timer IRQ handler to read
-     * the keyboard IRQs easier */
-    initKeyboard();
+void userInput(char* input) {
+    if (strcmp(input, "END") == 0) {
+        kprint("Stopping the CPU.\n");
+        asm volatile("hlt");
+    }
+    kprint("You said: ");
+    kprint(input);
+    kprint("\n> ");
 }

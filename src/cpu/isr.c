@@ -1,11 +1,88 @@
 #include "isr.h"
 
-#include "idt.h"
-#include "../drivers/ports.h"
+#include "../drivers/keyboard.h"
 #include "../drivers/video.h"
-#include "../kernel/string.h"
+#include "../libc/string.h"
+#include "idt.h"
+#include "ports.h"
+#include "timer.h"
 
 isr_t interruptHandlers[256];
+
+/* To print the message which defines every exception */
+char* exceptionMessages[] = {
+    "Division By Zero",
+    "Debug",
+    "Non Maskable Interrupt",
+    "Breakpoint",
+    "Into Detected Overflow",
+    "Out of Bounds",
+    "Invalid Opcode",
+    "No Coprocessor",
+
+    "Double Fault",
+    "Coprocessor Segment Overrun",
+    "Bad TSS",
+    "Segment Not Present",
+    "Stack Fault",
+    "General Protection Fault",
+    "Page Fault",
+    "Unknown Interrupt",
+
+    "Coprocessor Fault",
+    "Alignment Check",
+    "Machine Check",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Reserved"
+};
+
+void irqHandler(registers_t registers) {
+    /* After every interrupt we need to send an EOI to the PICs
+     * or they will not send another interrupt again */
+    if (registers.interruptNumber >= 40) {
+        /* Slave */
+        setPortByte(0xA0, 0x20);
+    }
+    /* Master */
+    setPortByte(0x20, 0x20);
+
+    /* Handle the interrupt in a more modular way */
+    if (interruptHandlers[registers.interruptNumber] != 0) {
+        isr_t handler = interruptHandlers[registers.interruptNumber];
+        handler(registers);
+    }
+}
+
+void irqInstall() {
+    /* Enable interruptions */
+    asm volatile("sti");
+    /* IRQ0: timer */
+    initTimer(50);
+    /* IRQ1: keyboard */
+    initKeyboard();
+}
+
+void isrHandler(registers_t registers) {
+    kprint("Received interrupt: ");
+    char interruptNumberString[3];
+    intToString(registers.interruptNumber, interruptNumberString);
+    kprint(interruptNumberString);
+    kprint("\n");
+    kprint(exceptionMessages[registers.interruptNumber]);
+    kprint("\n");
+}
 
 /* Can't do this with a loop because we need the address
  * of the function names */
@@ -77,72 +154,6 @@ void isrInstall() {
     setIdt();
 }
 
-/* To print the message which defines every exception */
-char* exceptionMessages[] = {
-    "Division By Zero",
-    "Debug",
-    "Non Maskable Interrupt",
-    "Breakpoint",
-    "Into Detected Overflow",
-    "Out of Bounds",
-    "Invalid Opcode",
-    "No Coprocessor",
-
-    "Double Fault",
-    "Coprocessor Segment Overrun",
-    "Bad TSS",
-    "Segment Not Present",
-    "Stack Fault",
-    "General Protection Fault",
-    "Page Fault",
-    "Unknown Interrupt",
-
-    "Coprocessor Fault",
-    "Alignment Check",
-    "Machine Check",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved"
-};
-
-void isrHandler(registers_t registers) {
-    kprint("Received interrupt: ");
-    char interruptNumberString[3];
-    intToString(registers.interruptNumber, interruptNumberString);
-    kprint(interruptNumberString);
-    kprint("\n");
-    kprint(exceptionMessages[registers.interruptNumber]);
-    kprint("\n");
-}
-
 void registerInterruptHandler(u8 interruptNumber, isr_t handler) {
     interruptHandlers[interruptNumber] = handler;
-}
-
-void irqHandler(registers_t registers) {
-    /* After every interrupt we need to send an EOI to the PICs
-     * or they will not send another interrupt again */
-    if (registers.interruptNumber >= 40) {
-        /* Slave */
-        setPortByte(0xA0, 0x20);
-    }
-    /* Master */
-    setPortByte(0x20, 0x20);
-
-    /* Handle the interrupt in a more modular way */
-    if (interruptHandlers[registers.interruptNumber] != 0) {
-        isr_t handler = interruptHandlers[registers.interruptNumber];
-        handler(registers);
-    }
 }
