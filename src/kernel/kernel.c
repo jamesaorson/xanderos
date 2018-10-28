@@ -4,6 +4,22 @@
 #include "../drivers/video.h"
 #include "../libc/string.h"
 
+void clearCommand(char* prompt) {
+    clearScreen();
+    kprint(prompt);
+}
+
+void endCommand() {
+    kprint("\nStopping the CPU");
+    asm volatile("hlt");
+}
+
+void hexCommand(int hex) {
+    char str[10];
+    hexToAscii(hex, str);
+    kprint(str);
+}
+
 void kernelMain() {
     isrInstall();
     irqInstall();
@@ -15,14 +31,12 @@ void kernelMain() {
 void performUserCommand(char* input) {
     kprint("\r");
     if (strcmp(input, "END") == 0) {
-        kprint("\nStopping the CPU");
-        asm volatile("hlt");
+        endCommand();
     } else if (strcmp(input, "CLEAR") == 0) {
-        clearScreen();
+        clearCommand("XanderOS> ");    
+        return;
     } else if (strcmp(input, "HEX") == 0) {
-        char str[10];
-        hexToAscii(15, str);
-        kprint(str);
+        hexCommand(15);
     } else {
         kprint("You said: ");
         kprint(input);

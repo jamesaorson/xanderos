@@ -29,7 +29,7 @@ kernel.elf: src/kernel/kernel_entry.o ${OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
 
 run: dist/xanderos.bin
-	qemu-system-i386 -fda $<
+	qemu-system-i386 $< -boot c
 
 # Gets a disk read error
 run_from_disk: dist/xanderos.bin

@@ -48,10 +48,13 @@ void kprintAtPosition(char *message, int row, int column) {
 }
 
 void kprintBackspace() {
-    int offset = getCursorOffset() - 2;
-    int row = getOffsetRow(offset);
-    int column = getOffsetColumn(offset);
-    printChar(0x08, row, column, WHITE_ON_BLACK);
+    int offset = getCursorOffset();
+    if (getOffsetColumn(offset) > 10) {
+        offset -= 2;
+        int row = getOffsetRow(offset);
+        int column = getOffsetColumn(offset);
+        printChar(0x08, row, column, WHITE_ON_BLACK);
+    }
 }
 
 /**********************************************************
