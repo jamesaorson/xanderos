@@ -6,18 +6,18 @@ VIDEO_MEMORY equ 0xb8000
 ; The color byte for each character
 WHITE_ON_BLACK equ 0x0f
 
-print_string_protected_mode:
+printStringProtectedMode:
     pusha
     mov edx, VIDEO_MEMORY
 
-print_string_protected_mode_loop:
+printStringProtectedModeLoop:
     ; [ebx] is the address of our character
     mov al, [ebx]
     mov ah, WHITE_ON_BLACK
 
     ; Check if end of string
     cmp al, 0
-    je print_string_protected_mode_done
+    je printStringProtectedModeDone
 
     ; Store character + attribute in video memory
     mov [edx], ax
@@ -26,8 +26,8 @@ print_string_protected_mode_loop:
     ; Next video memory position
     add edx, 2
 
-    jmp print_string_protected_mode_loop
+    jmp printStringProtectedModeLoop
 
-print_string_protected_mode_done:
+printStringProtectedModeDone:
     popa
     ret

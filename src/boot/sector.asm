@@ -9,12 +9,12 @@ KERNEL_OFFSET equ 0x1000
 
     mov bx, MSG_REAL_MODE 
     call print
-    call print_newline
+    call printNewline
 
     ; Read the kernel from disk
-    call load_kernel
+    call loadKernel
     ; Disable interrupts, load GDT, etc. Finally jumps to 'BEGIN_PROTECTED_MODE'
-    call switch_to_protected_mode
+    call switchToProtectedMode
     ; Never executed
     jmp $
 
@@ -26,24 +26,24 @@ KERNEL_OFFSET equ 0x1000
 %include "src/boot/32_bit/switch_protected_mode.asm"
 
 [bits 16]
-load_kernel:
+loadKernel:
     mov bx, MSG_LOAD_KERNEL
     call print
-    call print_newline
+    call printNewline
 
     ; Read from disk and store in 0x1000
     mov bx, KERNEL_OFFSET
     ; The future kernel will be larger, make this big
     mov dh, 16
     mov dl, [BOOT_DRIVE]
-    call disk_load
+    call diskLoad
 
     ret
 
 [bits 32]
 BEGIN_PROTECTED_MODE:
     mov ebx, MSG_PROTECTED_MODE
-    call print_string_protected_mode
+    call printStringProtectedMode
     ; Give control to the kernel
     call KERNEL_OFFSET
 

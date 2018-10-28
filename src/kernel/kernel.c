@@ -4,6 +4,8 @@
 #include "../drivers/video.h"
 #include "../libc/string.h"
 
+int hexNum = 0;
+
 void clearCommand(char* prompt) {
     clearScreen();
     kprint(prompt);
@@ -18,6 +20,10 @@ void hexCommand(int hex) {
     char str[10];
     hexToAscii(hex, str);
     kprint(str);
+}
+
+void threadCommand() {
+
 }
 
 void kernelMain() {
@@ -36,7 +42,10 @@ void performUserCommand(char* input) {
         clearCommand("XanderOS> ");    
         return;
     } else if (strcmp(input, "HEX") == 0) {
-        hexCommand(15);
+        if (hexNum == 15) {
+            hexNum = 0;
+        }
+        hexCommand(hexNum++);
     } else {
         kprint("You said: ");
         kprint(input);

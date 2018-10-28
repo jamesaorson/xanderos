@@ -4,6 +4,7 @@
 void clearCommand(char* prompt);
 void endCommand();
 void hexCommand(int hex);
+void threadCommand();
 void performUserCommand(char* input);
 
 #endif

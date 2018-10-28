@@ -1,5 +1,5 @@
 ; Load 'dh' sectors from drive 'dl' into ES:BX
-disk_load:
+diskLoad:
     pusha
     ; Reading from disk requires setting specific values in all registers
     ; so we will overwrite our input parameters from 'dx'. Let's save it
@@ -39,7 +39,7 @@ disk_load:
 disk_error:
     mov bx, DISK_ERROR
     call print
-    call print_newline
+    call printNewline
     ; ah = error code, dl = disk drive that dropped the error
     mov dh, ah
     ; check out the code at http://stanislavs.org/helppc/int_13-1.html

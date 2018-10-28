@@ -1,5 +1,5 @@
 [bits 16]
-switch_to_protected_mode:
+switchToProtectedMode:
     ; Disable interrupts
     cli
     ; Load the GDT descriptor

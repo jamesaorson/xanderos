@@ -24,7 +24,7 @@ done:
 
 
 
-print_newline:
+printNewline:
     pusha
     
     mov ah, 0x0e
