@@ -13,5 +13,5 @@ void setIdt() {
     idtRegister.limit = IDT_ENTRIES * sizeof(idt_gate_t) - 1;
 
     /* Don't make the mistake of loading &idt -- always load &idtRegister */
-    __asm__ __volatile__("lidtl (%0)" : : "r" (&idtRegister));
+    asm volatile("lidtl (%0)" : : "r" (&idtRegister));
 }
