@@ -49,7 +49,7 @@ static void keyboardCallback(registers_t regs) {
         char letter = scancodeAscii[(int)scancode];
         /* Remember that kprint only accepts char[] */
         char str[2] = {letter, '\0'};
-        append(keyBuffer, letter);
+        strappend(keyBuffer, letter);
         kprint(str);
     }
     UNUSED(regs);

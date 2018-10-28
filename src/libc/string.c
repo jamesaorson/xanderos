@@ -21,15 +21,39 @@ int strlen(char str[]) {
     return i;
 }
 
-void append(char str[], char characterToAppend) {
-    int len = strlen(str);
-    str[len] = characterToAppend;
-    str[len + 1] = '\0';
-}
-
 void backspace(char str[]) {
     int length = strlen(str);
     str[length - 1] = '\0';
+}
+
+void hexToAscii(int hex, char str[]) {
+    strappend(str, '0');
+    strappend(str, 'x');
+    char zeros = 0;
+
+    s32 temp;
+    int i;
+    for (i = 28; i > 0; i -= 4) {
+        temp = (hex >> i) & 0xF;
+        if (temp == 0 && zeros == 0) {
+            continue;
+        }
+        zeros = 1;
+        if (temp > 0xA) {
+            strappend(str, temp - 0xA + 'A');
+        }
+        else {
+            strappend(str, temp + '0');
+        }
+    }
+
+    temp = hex & 0xF;
+    if (temp >= 0xA) {
+        strappend(str, temp - 0xA + 'A');
+    }
+    else {
+        strappend(str, temp + '0');
+    }
 }
 
 /**
@@ -60,4 +84,10 @@ void reverseString(char stringToReverse[]) {
         stringToReverse[i] = stringToReverse[j];
         stringToReverse[j] = temp;
     }
+}
+
+void strappend(char str[], char characterToAppend) {
+    int len = strlen(str);
+    str[len] = characterToAppend;
+    str[len + 1] = '\0';
 }

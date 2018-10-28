@@ -19,6 +19,10 @@ void performUserCommand(char* input) {
         asm volatile("hlt");
     } else if (strcmp(input, "CLEAR") == 0) {
         clearScreen();
+    } else if (strcmp(input, "HEX") == 0) {
+        char str[10];
+        hexToAscii(15, str);
+        kprint(str);
     } else {
         kprint("You said: ");
         kprint(input);
