@@ -48,10 +48,10 @@ char* exceptionMessages[] = {
     "Reserved"
 };
 
-void irqHandler(registers_t registers) {
+void irqHandler(registers_t* registers) {
     /* After every interrupt we need to send an EOI to the PICs
      * or they will not send another interrupt again */
-    if (registers.interruptNumber >= 40) {
+    if (registers->interruptNumber >= 40) {
         /* Slave */
         setPortByte(0xA0, 0x20);
     }
@@ -59,8 +59,8 @@ void irqHandler(registers_t registers) {
     setPortByte(0x20, 0x20);
 
     /* Handle the interrupt in a more modular way */
-    if (interruptHandlers[registers.interruptNumber] != 0) {
-        isr_t handler = interruptHandlers[registers.interruptNumber];
+    if (interruptHandlers[registers->interruptNumber] != 0) {
+        isr_t handler = interruptHandlers[registers->interruptNumber];
         handler(registers);
     }
 }
@@ -74,13 +74,13 @@ void irqInstall() {
     initKeyboard();
 }
 
-void isrHandler(registers_t registers) {
+void isrHandler(registers_t* registers) {
     kprint("Received interrupt: ");
     char interruptNumberString[3];
-    intToString(registers.interruptNumber, interruptNumberString);
+    intToString(registers->interruptNumber, interruptNumberString);
     kprint(interruptNumberString);
     kprint("\n");
-    kprint(exceptionMessages[registers.interruptNumber]);
+    kprint(exceptionMessages[registers->interruptNumber]);
     kprint("\n");
 }
 

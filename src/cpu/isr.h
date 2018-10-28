@@ -80,7 +80,7 @@ typedef struct {
     uint32_t edi;
     uint32_t esi;
     uint32_t ebp;
-    uint32_t esp;
+    uint32_t useless;
     uint32_t ebx;
     uint32_t edx;
     uint32_t ecx;
@@ -94,16 +94,16 @@ typedef struct {
     uint32_t eip;
     uint32_t cs;
     uint32_t eflags;
-    uint32_t useresp;
+    uint32_t esp;
     uint32_t ss;
 } registers_t;
 
-void irqHandler(registers_t registers);
+void irqHandler(registers_t* registers);
 void irqInstall();
-void isrHandler(registers_t registers);
+void isrHandler(registers_t* registers);
 void isrInstall();
 
-typedef void (*isr_t)(registers_t);
+typedef void (*isr_t)(registers_t*);
 void registerInterruptHandler(uint8_t interruptNumber, isr_t handler);
 
 #endif

@@ -31,7 +31,7 @@ const char scancodeAscii[] = { '?', '?', '1', '2', '3', '4', '5', '6',
                           '?', ' '
                         };
 
-static void keyboardCallback(registers_t regs) {
+static void keyboardCallback(registers_t* registers) {
     /* The PIC leaves us the scancode in port 0x60 */
     uint8_t scancode = getPortByte(0x60);
     
@@ -52,7 +52,7 @@ static void keyboardCallback(registers_t regs) {
         strappend(keyBuffer, letter);
         kprint(str);
     }
-    UNUSED(regs);
+    UNUSED(registers);
 }
 
 void initKeyboard() {
