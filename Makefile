@@ -16,7 +16,7 @@ GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
 CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
 
 # First rule is run by default
-dist/xanderos.bin: src/boot/sector.bin src/kernel/kernel.bin
+dist/xanderos.raw: src/boot/sector.bin src/kernel/kernel.bin
 	cat $^ > $@
 
 # '--oformat binary' deletes all symbols as a collateral, so we don't need
@@ -28,18 +28,18 @@ src/kernel/kernel.bin: src/kernel/kernel_entry.o ${OBJ}
 kernel.elf: src/kernel/kernel_entry.o ${OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
 
-run: dist/xanderos.bin
+run: dist/xanderos.raw
 	qemu-system-i386 $< -boot c
 
 # Gets a disk read error
-run_from_disk: dist/xanderos.bin
+run_from_disk: dist/xanderos.raw
 	qemu-system-i386 $< -boot c
 
-run_from_floppy: dist/xanderos.bin
+run_from_floppy: dist/xanderos.raw
 	qemu-system-i386 -fda $<
 
 # Open the connection to qemu and load our kernel-object file with symbols
-debug: dist/xanderos.bin kernel.elf
+debug: dist/xanderos.raw kernel.elf
 	qemu-system-i386 -s -fda $< &
 	${GDB} -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
 
@@ -55,5 +55,5 @@ debug: dist/xanderos.bin kernel.elf
 	nasm $< -f bin -o $@
 
 clean:
-	rm -rf *.bin *.dis *.o dist/xanderos.bin *.elf
+	rm -rf *.bin *.dis *.o dist/xanderos.raw *.elf
 	rm -rf src/boot/*.bin src/boot/*.o src/cpu/*.bin src/cpu/*.o src/drivers/*.bin src/drivers/*.o src/kernel/*.bin src/kernel/*.o
