@@ -1,7 +1,7 @@
 #include "video.h"
 #include "ports.h"
 #include "../cpu/types.h"
-#include "../kernel/util.h"
+#include "../kernel/string.h"
 
 /* Declaration of private functions */
 int getCursorOffset();
@@ -49,7 +49,6 @@ void kprint(char *message) {
  * Private kernel functions                               *
  **********************************************************/
 
-
 /**
  * Innermost print function for our kernel, directly accesses the video memory 
  *
@@ -58,18 +57,6 @@ void kprint(char *message) {
  * Returns the offset of the next character
  * Sets the video cursor to the returned offset
  */
-
-void clearScreen() {
-    int screenSize = MAX_COLUMNS * MAX_ROWS;
-    char* screen = (char*) VIDEO_ADDRESS;
-
-    int i;
-    for (i = 0; i < screenSize; i++) {
-        screen[i * 2] = ' ';
-        screen[i * 2 + 1] = WHITE_ON_BLACK;
-    }
-    setCursorOffset(getOffset(0, 0));
-}
 
 int getCursorOffset() {
     /* Use the VGA ports to get the current cursor position
@@ -148,6 +135,18 @@ int printChar(char character, int row, int column, char color) {
 
     setCursorOffset(offset);
     return offset;
+}
+
+void clearScreen() {
+    int screenSize = MAX_COLUMNS * MAX_ROWS;
+    char* screen = (char*) VIDEO_ADDRESS;
+
+    int i;
+    for (i = 0; i < screenSize; i++) {
+        screen[i * 2] = ' ';
+        screen[i * 2 + 1] = WHITE_ON_BLACK;
+    }
+    setCursorOffset(getOffset(0, 0));
 }
 
 void setCursorOffset(int offset) {

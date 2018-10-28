@@ -1,5 +1,4 @@
 #include "idt.h"
-#include "../kernel/util.h"
 
 void setIdtGate(int n, u32 handler) {
     idt[n].lowOffset = low16(handler);

@@ -1,5 +1,5 @@
 #include "../drivers/video.h"
-#include "../kernel/util.h"
+#include "../kernel/string.h"
 #include "isr.h"
 #include "timer.h"
 

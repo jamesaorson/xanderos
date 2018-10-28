@@ -1,8 +1,10 @@
 #include "keyboard.h"
-#include "ports.h"
+
 #include "../cpu/isr.h"
+#include "../cpu/types.h"
+#include "../kernel/string.h"
+#include "ports.h"
 #include "video.h"
-#include "../kernel/util.h"
 
 void printLetter(u8 scancode);
 
