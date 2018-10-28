@@ -44,7 +44,7 @@ static void keyboardCallback(registers_t regs) {
         kprintBackspace();
     } else if (scancode == ENTER) {
         kprint("\n");
-        userInput(keyBuffer); /* kernel-controlled function */
+        performUserCommand(keyBuffer); /* kernel-controlled function */
         keyBuffer[0] = '\0';
     } else {
         char letter = scancodeAscii[(int)scancode];

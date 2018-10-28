@@ -7,14 +7,21 @@
 void main() {
     isrInstall();
     irqInstall();
+
+    clearScreen();
+    kprint("XanderOS> ");
 }
 
-void userInput(char* input) {
+void performUserCommand(char* input) {
+    kprint("\r");
     if (strcmp(input, "END") == 0) {
-        kprint("Stopping the CPU.\n");
+        kprint("\nStopping the CPU");
         asm volatile("hlt");
+    } else if (strcmp(input, "CLEAR") == 0) {
+        clearScreen();
+    } else {
+        kprint("You said: ");
+        kprint(input);
     }
-    kprint("You said: ");
-    kprint(input);
-    kprint("\n> ");
+    kprint("\r\nXanderOS> ");
 }

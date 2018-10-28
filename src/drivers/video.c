@@ -118,6 +118,8 @@ int printChar(char character, int row, int column, char color) {
     if (character == '\n') {
         row = getOffsetRow(offset);
         offset = getOffset(row + 1, column);
+    } else if (character == '\r') {
+        offset = getOffset(row, 0);
     } else if (character == 0x08) { /* Backspace */
         videoAddress[offset] = ' ';
         videoAddress[offset + 1] = color;
