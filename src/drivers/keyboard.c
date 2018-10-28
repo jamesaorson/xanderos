@@ -1,7 +1,6 @@
 #include "keyboard.h"
 
 #include "../cpu/isr.h"
-// #include "../cpu/types.h"
 #include "../kernel/kernel.h"
 #include "../libc/function.h"
 #include "../libc/string.h"

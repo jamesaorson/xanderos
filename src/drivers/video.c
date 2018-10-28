@@ -1,7 +1,7 @@
 #include "video.h"
 
 #include "../cpu/ports.h"
-#include "../cpu/types.h"
+#include "../cpu/type.h"
 #include "../libc/memory.h"
 #include "../libc/string.h"
 

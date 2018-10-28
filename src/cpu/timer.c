@@ -3,7 +3,7 @@
 #include "../libc/function.h"
 #include "isr.h"
 #include "ports.h"
-#include "types.h"
+#include "type.h"
 
 u32 tick = 0;
 
