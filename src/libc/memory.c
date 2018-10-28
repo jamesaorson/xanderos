@@ -9,7 +9,7 @@ uint32_t freeMemoryAddress = 0x10000;
 
 /* Implementation is just a pointer to some free memory which
  * keeps growing */
-uint32_t kmalloc(uint32_t size, int align, uint32_t* physicalAddress) {
+uint32_t kmalloc(size_t size, int align, uint32_t* physicalAddress) {
     /* Pages are aligned to 4K, or 0x1000 */
     if (align == 1 && (freeMemoryAddress & 0xFFFFF000)) {
         freeMemoryAddress &= 0xFFFFF000;
