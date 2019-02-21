@@ -85,7 +85,7 @@ mkdir gdb-build
 cd gdb-build
 export PREFIX="/usr/local/i386elfgcc"
 export TARGET=i386-elf
-../gdb-7.8/configure --target="$TARGET" --prefix="$PREFIX" --program-prefix=i386-elf-
+../gdb-8.2/configure --target="$TARGET" --prefix="$PREFIX" --program-prefix=i386-elf-
 make
 make install
 ```
