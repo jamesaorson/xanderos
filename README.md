@@ -40,11 +40,11 @@ Remember: always be careful before pasting walls of text from the internet. I re
 ```sh
 mkdir /tmp/src
 cd /tmp/src
-curl -O http://ftp.gnu.org/gnu/binutils/binutils-2.31.tar.gz # If the link 404's, look for a more recent version
-tar xf binutils-2.31.tar.gz
+curl -O http://ftp.gnu.org/gnu/binutils/binutils-2.32.tar.gz # If the link 404's, look for a more recent version
+tar xf binutils-2.32.tar.gz
 mkdir binutils-build
 cd binutils-build
-../binutils-2.31/configure --target=$TARGET --enable-interwork --enable-multilib --disable-nls --disable-werror --prefix=$PREFIX 2>&1 | tee configure.log
+../binutils-2.32/configure --target=$TARGET --enable-interwork --enable-multilib --disable-nls --disable-werror --prefix=$PREFIX 2>&1 | tee configure.log
 make all install 2>&1 | tee make.log
 ```
 
@@ -52,8 +52,8 @@ gcc
 ---
 ```sh
 cd /tmp/src
-curl -O http://mirror.bbln.org/gcc/releases/gcc-8.2.0/gcc-8.2.0.tar.bz2
-tar xf gcc-8.2.0.tar.bz2
+curl -O https://ftp.gnu.org/gnu/gcc/gcc-8.2.0/gcc-8.2.0.tar.gz
+tar xf gcc-8.2.0.tar.gz
 mkdir gcc-build
 cd gcc-build
 ../gcc-8.2.0/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --disable-libssp --enable-languages=c --without-headers
