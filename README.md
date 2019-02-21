@@ -77,6 +77,8 @@ ability to open a connection to gdb. First, let's install a cross-compiled `gdb`
 OSX uses `lldb` which is not compatible with the ELF file format (neither is the `gdb` available
 on Homebrew's repos)
 
+You may also need to install `texinfo` if errors occur when running `make install`.
+
 ```sh
 cd /tmp/src
 curl -O http://ftp.rediris.es/mirror/GNU/gdb/gdb-8.2.tar.gz
