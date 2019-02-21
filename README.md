@@ -56,7 +56,7 @@ curl -O https://ftp.gnu.org/gnu/gcc/gcc-8.2.0/gcc-8.2.0.tar.gz
 tar xf gcc-8.2.0.tar.gz
 mkdir gcc-build
 cd gcc-build
-../gcc-8.2.0/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --disable-libssp --enable-languages=c --without-headers
+../gcc-8.2.0/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --disable-libssp --enable-languages=c,c++ --without-headers
 make all-gcc 
 make all-target-libgcc 
 make install-gcc 
