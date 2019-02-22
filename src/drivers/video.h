@@ -6,6 +6,7 @@
 #define MAX_COLUMNS 80
 #define WHITE_ON_BLACK 0x0f
 #define RED_ON_WHITE 0xf4
+#define YELLOW_ON_BLACK 0x0e
 
 /* Screen i/o ports */
 #define SCREEN_CONTROL_PORT 0x3d4

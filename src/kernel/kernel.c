@@ -31,7 +31,17 @@ void kernelMain() {
     irqInstall();
 
     clearScreen();
-    kprint("XanderOS> ");
+    char splashScreen [6][36] = {
+        "     ____  ___    _   _______  __ \n",
+        "    / __ \\/   |  / | / /  _/ |/ /\n",
+        "   / /_/ / /| | /  |/ // / |   /  \n",
+        "  / ____/ ___ |/ /|  // / /   |   \n",
+        " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
+        "\nWelcome to the PANIX kernel!\n"
+    };
+    for (int i = 0; i < 6; i++) {
+        kprint(splashScreen[i]);
+    }
 }
 
 void performUserCommand(char* input) {

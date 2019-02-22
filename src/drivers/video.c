@@ -40,7 +40,7 @@ void kprintAtPosition(char *message, int row, int column) {
     /* Loop through message and print it */
     int i = 0;
     while (message[i] != 0) {
-        offset = printChar(message[i++], row, column, WHITE_ON_BLACK);
+        offset = printChar(message[i++], row, column, YELLOW_ON_BLACK);
         /* Compute row/column for next iteration */
         row = getOffsetRow(offset);
         column = getOffsetColumn(offset);
@@ -120,7 +120,7 @@ int printChar(char character, int row, int column, char color) {
 
     if (character == '\n') {
         row = getOffsetRow(offset);
-        offset = getOffset(row + 1, column);
+        offset = getOffset(row + 1, 0);
     } else if (character == '\r') {
         offset = getOffset(row, 0);
     } else if (character == 0x08) { /* Backspace */
