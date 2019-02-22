@@ -26,7 +26,7 @@ void threadCommand() {
 
 }
 
-void kernelMain() {
+extern "C" void kernelMain() {
     isrInstall();
     irqInstall();
 

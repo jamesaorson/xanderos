@@ -3,7 +3,6 @@
 #include "../drivers/keyboard.h"
 #include "../drivers/video.h"
 #include "../libc/string.h"
-#include "idt.h"
 #include "ports.h"
 #include "timer.h"
 
