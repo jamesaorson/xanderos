@@ -2,18 +2,18 @@
 # $< = first dependency
 # $^ = all dependencies
 
-C_SOURCES = $(wildcard src/kernel/*.c src/drivers/*.c src/cpu/*.c src/libc/*.c)
+C_SOURCES = $(wildcard src/kernel/*.cpp src/drivers/*.cpp src/cpu/*.cpp src/libc/*.cpp)
 HEADERS = $(wildcard src/kernel/*.h src/drivers/*.h src/cpu/*.h src/libc/*.h)
 
 # Nice syntax for file extension replacement
-OBJ = ${C_SOURCES:.c=.o src/cpu/interrupt.o}
+OBJ = ${C_SOURCES:.cpp=.o src/cpu/interrupt.o}
 
 # Change this if your cross-compiler is somewhere else
 CC = i386-elf-gcc
 GDB = i386-elf-gdb
 
 # -g: Use debugging symbols in gcc
-CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
+CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -lstdc++
 
 # First rule is run by default
 dist/xanderos.raw: src/boot/sector.bin src/kernel/kernel.bin
@@ -45,7 +45,7 @@ debug: dist/xanderos.raw kernel.elf
 
 # Generic rules for wildcards
 # To make an object, always compile from its .c
-%.o: %.c ${HEADERS}
+%.o: %.cpp ${HEADERS}
 	${CC} ${CFLAGS} -c $< -o $@
 
 %.o: %.asm
