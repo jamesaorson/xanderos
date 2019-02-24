@@ -38,6 +38,15 @@ run_from_disk: dist/xanderos.raw
 run_from_floppy: dist/xanderos.raw
 	qemu-system-i386 -fda $<
 
+dist: dist/xanderos.raw
+	@ echo Building VDI image of Xanderos...
+	@ qemu-img convert -f raw -O vdi dist/xanderos.raw dist/xanderos.vdi
+	@ echo Done building VDI image of Xanderos!
+
+	@ echo "\nBuilding VMDK image of Xanderos..."
+	@ qemu-img convert -f raw -O vmdk dist/xanderos.raw dist/xanderos.vmdk
+	@ echo Done building VMDK image of Xanderos!
+
 # Open the connection to qemu and load our kernel-object file with symbols
 debug: dist/xanderos.raw kernel.elf
 	qemu-system-i386 -s -fda $< &
