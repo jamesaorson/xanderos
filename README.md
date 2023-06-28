@@ -1,3 +1,5 @@
+MOVED TO [SOURCEHUT](https://git.sr.ht/nixnmomad/xanderos)
+
 # tree/master/13-kernel-barebonesXanderOS
 Following https://github.com/cfenollosa/os-tutorial
 
